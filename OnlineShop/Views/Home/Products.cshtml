@@ -1,0 +1,34 @@
+﻿@using OnlineShop.Models;
+@{
+    ViewBag.Title = "Products";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<form action="~/Home/Search" method="get">
+    <label>
+        Search by author:
+        <input type="text" name="term" class="form-control" />
+    </label>
+    <input type="submit" value="Search products" class="btn btn-primary" />
+</form>
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>Products Name</th>
+        <th>Description</th>
+        <th>Price</th>  
+        <th></th>
+    </tr>
+
+    @foreach (Product p in ViewBag.SearchResults)
+    {
+    <tr>
+        <td>@p.Name</td>
+        <td>@p.Description</td>
+        <td>$@p.Price.ToString("F")</td>
+        <td><a href="~/Home/Cart?id=@p.ProductID" class="btn btn-danger">Add to Cart</a></td>
+    </tr>
+    }
+
+</table>

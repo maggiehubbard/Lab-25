@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "New User Registration";
+}
+
+<h2>Register Below: </h2>
+
+<form action="@Url.Action("RegisterSubmit", "User")" method="post">
+
+    <label>First Name: </label> <input type="text" name="FirstName" class="btn-block" /> <br />
+    <label>Last Name: </label><input type="text" name="lastname" class="btn-block" /><br />
+   
+    <label> Age: </label><input type="number" name="age" id="age" class="btn-block" /><br />
+    <span id="agewarn" class="text-danger"></span>
+    <label>Phone Number:</label> <input type="text" name="phone" id="phone" class="btn-block" /><br />
+    <span id="phonewarn" class="text-danger"></span>
+    <label>Email Address: </label><input type="text" name="email" id="email" class="btn-block" /><br />
+    <label>Password: </label><input type="password" name="password" id="p1" class="btn-block" /><br />
+    <label>Reenter Password: </label><input type="password" name="password2" id="p2" class="btn-block" /><br />
+    <span id="warning" class="text-danger"></span>
+    <br />Would you like us to send our latest specials and coupons to your provided email address? : <br />
+    <label>Yes: <input type="radio" name="consent" value="Yes" class="radio radio-inline" /></label>
+    <label>No: <input type="radio" name="consent" value="No" id="No" /><br /></label>
+    <br /><input type="submit" value="Register" class="btn btn-block" onclick="return ValidateAllInputs()" />
+</form>
+<br />
+<p>Returning user? <a href="~/Home/Index">Log in here!</a></p>
+
+<script>
+
+    //This function validates that both passwords match and it is btwn 5 & 20 characters
+    function MatchPassword() {
+        var p1 = (document.getElementById("p1"));
+        var p2 = document.getElementById("p2");
+        var warningText = document.getElementById("warning");
+
+        if (p1.value.length < 5) {
+            warningText.innerHTML = "<em>Password is too short. Please try again.</em>";
+            return false;
+        } else if (p1.value.length > 20) {
+            warningText.innerHTML = "Password is too long. Please try again.";
+            return false;
+        } else if (p1.value != p2.value) {
+            warningText.innerHTML = "Passwords do not match. Please try again.";
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //Function validates email w. a regex
+    function ValidateEmail() {
+        var email = document.getElementById("email").value;
+        var warningText = document.getElementById("warning");
+        if (email.match(/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+            return true;
+        } else {
+            warningText.innerHTML = "<em>You entered an invalid email. Please try again.</em>";
+            return false;
+        }
+    }
+
+    //Function to validate age -- users must be 13+ and below 99
+    function ValidateAge() {
+        var warning = document.getElementById("agewarn");
+        var age = document.getElementById("age").value;
+        if (age <= 99 && age >= 13) {
+            return true;
+        } else if (age < 0 || age > 99) {
+            warning.innerHTML = "<em>Please enter a valid age </em>"
+            return false;
+        } else if (age <= 12) {
+            warning.innerHTML = "<em>You must be 13 years or older to create an account</em>"
+            return false;
+        }
+    }
+
+    //Function validates the phne number given during registration
+    function ValidatePhone() {
+        var phone = document.getElementById("phone").value;
+        var phonewarn = document.getElementById("phonewarn");
+        if (phone.match(/^(\(\d{3}\)|\d{3})-?\d{3}-?\d{4}$/)) {
+            return true;
+        } else {
+            phonewarn.innerHTML = "<em>You entered an invalid phone number. Please try again.</em>";
+            return false;
+        }
+    }
+
+    //combines all functions to call them as soon as the button is clicked
+    function ValidateAllInputs() {
+        if (!ValidateEmail()) {
+            return false;
+        } else if (!MatchPassword()) {
+            return false;
+        } else if (!ValidateAge()) {
+            return false;
+        } else if (!ValidatePhone()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
